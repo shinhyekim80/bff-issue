@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Navigate, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import AnswerTypeSelect from './screens/AnswerTypeSelect';
@@ -23,8 +23,10 @@ function HomeGate() {
 }
 
 function App() {
+  const Router = import.meta.env.BASE_URL === '/' ? BrowserRouter : HashRouter;
+
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         {/* Full-screen pages (no bottom nav) */}
         <Route path="/answer" element={<AnswerTypeSelect />} />
@@ -47,7 +49,7 @@ function App() {
           <Route path="magazine" element={<Magazine />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

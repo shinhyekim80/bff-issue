@@ -41,8 +41,12 @@ function BirthdayInvitation() {
   };
 
   const acceptInvitation = () => {
-    setAccepted(true);
     setDeclined(false);
+    setAccepted(false);
+    openInvitation();
+    window.setTimeout(() => {
+      setAccepted(true);
+    }, 860);
   };
 
   const handleDecline = (event?: SyntheticEvent<HTMLButtonElement>) => {
@@ -83,16 +87,11 @@ function BirthdayInvitation() {
           <span>hanok, clay, quiet lunch</span>
         </div>
 
-        <button
+        <div
           className="bi-envelope-scene"
-          type="button"
           onMouseEnter={() => setIsPeeking(true)}
           onMouseLeave={() => setIsPeeking(false)}
-          onFocus={() => setIsPeeking(true)}
-          onBlur={() => setIsPeeking(false)}
-          onClick={openInvitation}
-          aria-expanded={isOpen}
-          aria-label={isOpen ? '열린 생일 초대장' : '생일 초대장 열기'}
+          aria-label={isOpen ? '열린 생일 초대장' : '닫힌 생일 초대장'}
         >
           <span className="bi-site-brand">RestOfYou</span>
           <span className="bi-cover-title">서울 도심 휴식권</span>
@@ -134,23 +133,41 @@ function BirthdayInvitation() {
               <span />
               <span />
             </span>
-            <span className="bi-postcard-copy">
-              밥 먹고, 흙 만지고, 한옥에서 아무것도 안 하기.
-            </span>
+            <span className="bi-postcard-copy">밥 먹고, 흙 만지고, 한옥에서 아무것도 안 하기.</span>
             <span className="bi-stamp" />
           </span>
-        </button>
-
-        <div className="bi-open-hint" aria-hidden="true">
-          <span>{isOpen ? '카드가 열렸어요' : 'hover or click to open'}</span>
         </div>
+
+        <div className="bi-actions" aria-label="초대 응답">
+          <p className="bi-action-title">초대장 답장</p>
+          <button className="bi-accept" type="button" onClick={acceptInvitation}>
+            <span className="bi-button-kicker">수락</span>
+            <span className="bi-button-main">휴식권 사용하기</span>
+          </button>
+          <button
+            className={`bi-decline ${!canDecline ? 'is-teasing' : ''}`}
+            type="button"
+            onMouseEnter={handleDecline}
+            onPointerDown={handleDecline}
+            onClick={handleDecline}
+            style={declineStyle}
+          >
+            <span className="bi-button-kicker">거절</span>
+            <span className="bi-button-main">{declineDisplayLabel}</span>
+          </button>
+        </div>
+
+        {declined && <p className="bi-status">알겠어요. 대신 다음 생일엔 버튼을 더 멀리 숨길게요.</p>}
 
         <article className="bi-message" aria-hidden={!isOpen}>
           <p className="bi-kicker">birthday invitation</p>
           <h1>7월 10일, 서울에서 잠깐 로그아웃</h1>
           <p>
-            금요일 하루만 알림을 조금 줄이고 만나요. 광화문에서 밥을 먹고, 종로에서 도자기를 만들고,
-            누정에 들어가서 각자 멋진 척 조금 하다가 결국 편하게 누워있을 예정입니다.
+            이번주 금요일은 슬랙 로그인 금지입미다.
+            <br />
+            자주 들르던 광화문에서 만나요.
+            <br />
+            정확히 뭔지는 와보면 알게 됩니다.
           </p>
           <div className="bi-day-scene" aria-hidden="true">
             <span className="bi-scene-sky" />
@@ -165,51 +182,31 @@ function BirthdayInvitation() {
           </div>
           <div className="bi-breath-note">
             <span>오늘의 코스</span>
-            <p>밥, 흙, 한옥, 그리고 아무것도 안 하기. 생각보다 꽤 고급진 생일 일정입니다.</p>
+            <p>밥, 흙, 한옥.</p>
           </div>
           <dl className="bi-details">
             <div>
               <dt>when</dt>
-              <dd>2026년 7월 10일 금요일</dd>
+              <dd>2026년 7월 10일 금요일 11시</dd>
             </div>
             <div>
               <dt>lunch</dt>
-              <dd>광화문 아사달에서 차분히 점심</dd>
+              <dd>광화문 아사달</dd>
             </div>
             <div>
               <dt>clay</dt>
-              <dd>종로 미믹크래프트에서 도자기 만들기</dd>
+              <dd>종로 미믹크래프트</dd>
             </div>
             <div>
               <dt>stay</dt>
-              <dd>누정, 종로구 누하동의 한옥 스테이</dd>
+              <dd>종로구 누하동</dd>
             </div>
             <div>
               <dt>bring</dt>
-              <dd>편한 신발, 빈 마음, 천천히 마실 숨</dd>
+              <dd>빈 지갑, 공기</dd>
             </div>
           </dl>
 
-          <div className="bi-actions" aria-label="초대 응답">
-            <p className="bi-action-title">초대장 답장</p>
-            <button className="bi-accept" type="button" onClick={acceptInvitation}>
-              <span className="bi-button-kicker">수락</span>
-              <span className="bi-button-main">휴식권 사용하기</span>
-            </button>
-            <button
-              className={`bi-decline ${!canDecline ? 'is-teasing' : ''}`}
-              type="button"
-              onMouseEnter={handleDecline}
-              onPointerDown={handleDecline}
-              onClick={handleDecline}
-              style={declineStyle}
-            >
-              <span className="bi-button-kicker">거절</span>
-              <span className="bi-button-main">{declineDisplayLabel}</span>
-            </button>
-          </div>
-
-          {declined && <p className="bi-status">알겠어요. 대신 다음 생일엔 버튼을 더 멀리 숨길게요.</p>}
         </article>
       </section>
 
@@ -232,7 +229,6 @@ function BirthdayInvitation() {
           </div>
           <div className="bi-accept-note">
             <p>좋아요. 7월 10일, 휴식 멤버로 등록됐습니다.</p>
-            <small>과한 파티 없음. 편한 하루 있음.</small>
           </div>
         </div>
       )}
