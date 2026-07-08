@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-grad-mid text-text-primary font-sans;
+    @apply bg-bg-grad-mid text-text-primary;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  #root {
+    @apply min-h-screen bg-grad-main max-w-[375px] mx-auto shadow-xl relative overflow-hidden;
+  }
+}
